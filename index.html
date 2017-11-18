@@ -1,91 +1,130 @@
-
 <!DOCTYPE html>
 <html lang="en">
-		<head>
-					<title>linscape online</title>
-							<meta charset="utf-8">
-									<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-											<style>
-			body {
-								margin: 0px;
-													background-color: #050505;
-																		color: #fff;
-																							overflow: hidden;
-																											}
 
-						a { color: #e00 }
+<head>
+    <title>linscape online</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            margin: 0px;
+            background-color: #050505;
+            color: #fff;
+            overflow: hidden;
+        }
 
-									#info {
-														position: absolute;
-																			top: 0px; width: 100%;
-																								color: #ffffff;
-																													padding: 5px;
-																																		font-family: Monospace;
-																																							font-size: 13px;
-																																												text-align: center;
-																																																	background-color: coral;
-																																																					}
+        a {
+            color: #e00
+        }
 
-											</style>
-												</head>
+        #info {
+            position: absolute;
+            top: 0px;
+            width: 100%;
+            color: #ffffff;
+            padding: 5px;
+            font-family: Monospace;
+            font-size: 13px;
+            text-align: center;
+            background-color: coral;
+        }
+    </style>
+</head>
 
-													<body>
+<body>
 
-																		<script>
+    <script>
+        function linspace(a, b, n) {
+            if (typeof n === "undefined") n = Math.max(Math.round(b - a) + 1, 1);
+            if (n < 2) {
+                return n === 1 ? [a] : [];
+            }
+            var i, ret = Array(n);
+            n--;
+            for (i = n; i >= 0; i--) {
+                ret[i] = (i * b + (n - i) * a) / n;
+            }
+            return ret;
+        }
 
-			function linspace(a,b,n) {
-							    if(typeof n === "undefined") n = Math.max(Math.round(b-a)+1,1);
-							    			    if(n<2) { return n===1?[a]:[]; }
-										    			    var i,ret = Array(n);
-													    			    n--;
-																    			    for(i=n;i>=0;i--) { ret[i] = (i*b+(n-i)*a)/n; }
-																			    			    return ret;
-																						    			}
+        var container = document.createElement('div');
+        document.body.appendChild(container);
+        var info = document.createElement('div');
+        info.style.position = 'absolute';
+        info.style.top = '20px';
+        info.style.width = '100%';
+        info.style.textAlign = 'center';
+        info.style.fontSize = '2.8em';
+        info.style.fontFamily = 'Arial';
+        info.style.backgroundColor = 'coral';
+        info.innerHTML = 'Daily<br/>linspace';
+        container.appendChild(info);
 
-var container = document.createElement( 'div' );
-				document.body.appendChild( container );
-								var info = document.createElement( 'div' );
-												info.style.position = 'absolute';
-																info.style.top = '20px';
-																				info.style.width = '100%';
-																								info.style.textAlign = 'center';
-																												info.style.fontSize = '2.8em';
-																																info.style.fontFamily = 'Arial';
-																																				info.style.backgroundColor = 'coral';
-																																								info.innerHTML = 'Daily<br/>linspace';
-																																												container.appendChild( info );
+        // linspace of the day
+        var lnsp = document.createElement('div');
+        lnsp.style.position = 'absolute';
+        lnsp.style.top = '120px';
+        lnsp.style.width = '100%';
+        lnsp.style.textAlign = 'center';
+        lnsp.style.fontSize = '1.2em';
+        lnsp.style.fontFamily = 'Arial';
+        lnsp.style.color = 'black';
+        lnsp.style.backgroundColor = 'white';
+        let date = new Date();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let year = date.getFullYear() - 2000;
+        var message = 'The linspace of the day is linspace(';
+        message += month + ', ' + day + ', ' + year + ') = <br/>';
+        var arr = linspace(month, day, year);
+        message += '[';
+        for (a of arr) {
+            message += a + ', ';
+        }
+        message += ']';
+        lnsp.innerHTML = message;
+        container.appendChild(lnsp);
 
-																																																// linspace of the day
-																																																var lnsp = document.createElement( 'div' );
-																																																				lnsp.style.position = 'absolute';
-																																																								lnsp.style.top = '120px';
-																																																												lnsp.style.width = '100%';
-																																																																lnsp.style.textAlign = 'bottom';
-																																																																				lnsp.style.fontSize = '1.2em';
-																																																																								lnsp.style.fontFamily = 'Arial';
-																																																																												lnsp.style.color = 'black';
-																																																																																lnsp.style.backgroundColor = 'white';
-																																																																																				let date = new Date();
-																																																																																								let month = date.getMonth()+1;
-																																																																																												let day  = date.getDate();
-																																																																																																let year = date.getFullYear()-2000;
-																																																																																																				var message = 'The linspace of the day is linspace(';
-																																																																																																										message += month + ', ' + day + ', ' + year + ') = <br/>';
-																																																																																																								var arr = linspace(month,day,year);
-																																																																																																												message += '[';
-																																																																																																																for (a of arr) {
-																																																																																																																						message += a + ', '
-																																																																																																																											}
-				message += ']';
-								lnsp.innerHTML = message;
-												container.appendChild( lnsp );
+		// linspace by the minute
+        var sec = document.createElement('div');
+    	sec.style.position = 'absolute';
+        sec.style.top = '220px';
+        sec.style.width = '100%';
+        sec.style.textAlign = 'center';
+        sec.style.fontSize = '1.2em';
+        sec.style.fontFamily = 'Arial';
+        sec.style.color = 'black';
+        sec.style.backgroundColor = 'white';
+
+        var updateSec = function() {
+
+	        let date = new Date();
+	        let hour = date.getHours();
+	        let minute = date.getMinutes();
+	        let second = date.getSeconds();
+	        var message = 'Forecast updated every second: \nlinspace(';
+	        message += hour + ', ' + minute + ', ' + second + ') = <br/>';
+	        var arr = linspace(hour, minute, second);
+	        message += '[';
+	        for (a of arr) {
+	            message += a + ', ';
+	        }
+	        message += ']';
+	        sec.innerHTML = message;
+
+	        setTimeout(updateSec, 1000);
+        }
 
 
-														</script>
+        updateSec(sec, updateSec);
+        container.appendChild(sec);
 
 
 
-															</body>
+    </script>
+
+
+
+</body>
 
 </html>
-
